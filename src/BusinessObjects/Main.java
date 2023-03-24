@@ -16,6 +16,7 @@ public class Main {
         int choice;
         while (true) {
             System.out.println("""
+                    
                     Choose an option from below:
                     0 - Exit program
                     1 - Display all prisoners
@@ -38,7 +39,18 @@ public class Main {
                         }
                         break;
                     case 2:
-                        System.out.println("Display a prisoner by their ID");
+                        int id;
+                        System.out.print("Enter the ID to search by: ");
+                        try {
+                            id = userInput.nextInt();
+                            System.out.println(IUserDao.findPrisonerById(id));
+                        }
+                        catch (DaoException e) {
+                            e.printStackTrace();
+                        }
+                        catch (InputMismatchException e) {
+                            System.out.println("Please enter a number");
+                        }
                         break;
                     default:
                         System.out.println("Invalid number, please try again");
