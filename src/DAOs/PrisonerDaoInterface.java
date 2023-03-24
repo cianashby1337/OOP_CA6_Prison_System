@@ -25,7 +25,7 @@ import Exceptions.DaoException;
 
 import java.util.List;
 
-public interface UserDaoInterface
+public interface PrisonerDaoInterface
 {
     public List<Prisoner> findAllPrisoners() throws DaoException;
 

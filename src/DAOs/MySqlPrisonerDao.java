@@ -23,7 +23,7 @@ import Exceptions.DaoException;
 import java.util.List;
 
 
-public class MySqlUserDao extends MySqlDao implements UserDaoInterface
+public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
 {
 
 
