@@ -39,11 +39,25 @@ public class Main {
                         }
                         break;
                     case 2:
-                        int id;
+                        int idToGet;
                         System.out.print("Enter the ID to search by: ");
                         try {
-                            id = userInput.nextInt();
-                            System.out.println(IUserDao.findPrisonerById(id));
+                            idToGet = userInput.nextInt();
+                            System.out.println(IUserDao.findPrisonerById(idToGet));
+                        }
+                        catch (DaoException e) {
+                            e.printStackTrace();
+                        }
+                        catch (InputMismatchException e) {
+                            System.out.println("Please enter a number");
+                        }
+                        break;
+                    case 3:
+                        int idToDelete;
+                        System.out.print("Enter the ID to search by: ");
+                        try {
+                            idToDelete = userInput.nextInt();
+                            IUserDao.deletePrisonerById(idToDelete);
                         }
                         catch (DaoException e) {
                             e.printStackTrace();
