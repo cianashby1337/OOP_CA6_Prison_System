@@ -20,6 +20,8 @@ package DAOs;
 import DTOs.Prisoner;
 import Exceptions.DaoException;
 
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,7 +31,58 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
 
     @Override
     public List<Prisoner> findAllPrisoners() throws DaoException {
-        return null;
+
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        List<Prisoner> prisonerList = new ArrayList<>();
+
+        try
+        {
+            //Get connection object using the methods in the super class (MySqlDao.java)...
+            connection = this.getConnection();
+
+            String query = "SELECT * FROM prisoners";
+            ps = connection.prepareStatement(query);
+
+            //Using a PreparedStatement to execute SQL...
+            resultSet = ps.executeQuery();
+            while (resultSet.next())
+            {
+                int prisoner_id = resultSet.getInt("prisoner_id");
+                String first_name = resultSet.getString("first_name");
+                String last_name = resultSet.getString("last_name");
+                double level_of_misconduct = resultSet.getDouble("level_of_misconduct");
+                Date imprisonment_date = resultSet.getDate("imprisonment_date");
+                Date release_date = resultSet.getDate("release_date");
+                Prisoner u = new Prisoner(prisoner_id, first_name, last_name, level_of_misconduct, imprisonment_date, release_date);
+                prisonerList.add(u);
+            }
+        } catch (SQLException e)
+        {
+            throw new DaoException("findAllPrisonerresultSet() " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("findAllUsers() " + e.getMessage());
+            }
+        }
+        return prisonerList;
     }
 
     @Override
