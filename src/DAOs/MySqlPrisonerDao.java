@@ -49,14 +49,8 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
             resultSet = ps.executeQuery();
             while (resultSet.next())
             {
-                int prisoner_id = resultSet.getInt("prisoner_id");
-                String first_name = resultSet.getString("first_name");
-                String last_name = resultSet.getString("last_name");
-                double level_of_misconduct = resultSet.getDouble("level_of_misconduct");
-                Date imprisonment_date = resultSet.getDate("imprisonment_date");
-                Date release_date = resultSet.getDate("release_date");
-                Prisoner u = new Prisoner(prisoner_id, first_name, last_name, level_of_misconduct, imprisonment_date, release_date);
-                prisonerList.add(u);
+                Prisoner p = getSinglePrisoner(resultSet);
+                prisonerList.add(p);
             }
         } catch (SQLException e)
         {
@@ -87,7 +81,59 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
 
     @Override
     public Prisoner findPrisonerById(int id) throws DaoException {
-        return null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Prisoner prisoner = null;
+        try
+        {
+            connection = this.getConnection();
+
+            String query = "SELECT * FROM prisoners WHERE prisoner_id = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next())
+            {
+                prisoner = getSinglePrisoner(resultSet);
+                }
+        } catch (SQLException e)
+        {
+            throw new DaoException("findUserByUsernamePassword() " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (preparedStatement != null)
+                {
+                    preparedStatement.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("findUserByUsernamePassword() " + e.getMessage());
+            }
+        }
+        return prisoner;     // reference to User object, or null value
+    }
+
+    Prisoner getSinglePrisoner(ResultSet resultSet) throws SQLException {
+        int prisoner_id = resultSet.getInt("prisoner_id");
+        String first_name = resultSet.getString("first_name");
+        String last_name = resultSet.getString("last_name");
+        double level_of_misconduct = resultSet.getDouble("level_of_misconduct");
+        Date imprisonment_date = resultSet.getDate("imprisonment_date");
+        Date release_date = resultSet.getDate("release_date");
+        Prisoner prisoner = new Prisoner(prisoner_id, first_name, last_name, level_of_misconduct, imprisonment_date, release_date);
+        return prisoner;
     }
 }
 

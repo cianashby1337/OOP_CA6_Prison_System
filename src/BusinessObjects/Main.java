@@ -18,7 +18,8 @@ public class Main {
             System.out.println("""
                     Choose an option from below:
                     0 - Exit program
-                    1 - Display all prisoners""");
+                    1 - Display all prisoners
+                    2 - Display a prisoner by their ID""");
             try {
                 choice = userInput.nextInt();
                 switch (choice) {
@@ -28,11 +29,16 @@ public class Main {
                     case 1:
                         try {
                             List<Prisoner> prisoners = IUserDao.findAllPrisoners();
-                            System.out.println(prisoners);
+                            for (Prisoner prisoner:prisoners) {
+                                System.out.println(prisoner.toString());
+                            }
                         }
                         catch (DaoException e) {
                             e.printStackTrace();
                         }
+                        break;
+                    case 2:
+                        System.out.println("Display a prisoner by their ID");
                         break;
                     default:
                         System.out.println("Invalid number, please try again");
