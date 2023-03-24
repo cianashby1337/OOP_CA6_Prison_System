@@ -27,9 +27,10 @@ import java.util.List;
 
 public interface PrisonerDaoInterface
 {
-    public List<Prisoner> findAllPrisoners() throws DaoException;
+    List<Prisoner> findAllPrisoners() throws DaoException;
 
-    public Prisoner findPrisonerById(int id) throws DaoException;
+    Prisoner findPrisonerById(int id) throws DaoException;
 
+    void deletePrisonerById() throws DaoException;
 }
 

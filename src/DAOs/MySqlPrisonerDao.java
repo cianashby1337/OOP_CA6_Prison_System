@@ -125,6 +125,42 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
         return prisoner;     // reference to User object, or null value
     }
 
+    @Override
+    public void deletePrisonerById() throws DaoException {
+
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        try
+        {
+            //Get connection object using the methods in the super class (MySqlDao.java)...
+            connection = this.getConnection();
+
+            String query = "DELETE FROM prisoners WHERE prisoner_id = ?";
+            ps = connection.prepareStatement(query);
+            ps.executeQuery();
+        } catch (SQLException e)
+        {
+            throw new DaoException("deletePrisonerById() " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("deletePrisonerById() " + e.getMessage());
+            }
+        }
+    }
+
     Prisoner getSinglePrisoner(ResultSet resultSet) throws SQLException {
         int prisoner_id = resultSet.getInt("prisoner_id");
         String first_name = resultSet.getString("first_name");
