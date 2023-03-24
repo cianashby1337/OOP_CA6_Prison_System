@@ -57,7 +57,8 @@ public class Main {
                         System.out.print("Enter the ID to search by: ");
                         try {
                             idToDelete = userInput.nextInt();
-                            IUserDao.deletePrisonerById(idToDelete);
+                            if (IUserDao.deletePrisonerById(idToDelete) == 1) System.out.println("Prisoner removed from system");
+                            else System.out.println("Prisoner not removed from system");
                         }
                         catch (DaoException e) {
                             e.printStackTrace();

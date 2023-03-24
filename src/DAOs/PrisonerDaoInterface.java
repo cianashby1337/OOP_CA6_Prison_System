@@ -31,6 +31,6 @@ public interface PrisonerDaoInterface
 
     Prisoner findPrisonerById(int id) throws DaoException;
 
-    void deletePrisonerById(int id) throws DaoException;
+    int deletePrisonerById(int id) throws DaoException;
 }
 

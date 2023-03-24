@@ -126,7 +126,7 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
     }
 
     @Override
-    public void deletePrisonerById(int id) throws DaoException {
+    public int deletePrisonerById(int id) throws DaoException {
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -139,24 +139,20 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
             String query = "DELETE FROM prisoners WHERE prisoner_id = ?";
             ps = connection.prepareStatement(query);
             ps.setInt(1, id);
-            ps.execute();
+            int result = ps.executeUpdate();
+            return result;
         } catch (SQLException e)
         {
             throw new DaoException("deletePrisonerById() " + e.getMessage());
-        } finally
-        {
-            try
-            {
-                if (ps != null)
-                {
+        } finally {
+            try {
+                if (ps != null) {
                     ps.close();
                 }
-                if (connection != null)
-                {
+                if (connection != null) {
                     freeConnection(connection);
                 }
-            } catch (SQLException e)
-            {
+            } catch (SQLException e) {
                 throw new DaoException("deletePrisonerById() " + e.getMessage());
             }
         }
