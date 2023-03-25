@@ -103,13 +103,22 @@ public class Main {
             userInput.nextLine();
             System.out.println("Enter the first name of the convict");
             String first_name = userInput.nextLine();
+            if(!nameValidation(first_name)) return null;
 
             System.out.println("Enter the last name of the convict");
             String last_name = userInput.nextLine();
+            if(!nameValidation(last_name)) return null;
 
-            System.out.println("Enter the release date of the convict in the form yyyy-mm-dd (e.g 2025-03-11)");
+            System.out.println("Enter the release date of the convict in the form yyyy-mm-dd with a real year, day and month (e.g 2025-03-11)");
             String release_date = userInput.nextLine();
-            //regex for release date here
+
+            // I got assistance with regex for release date from here https://www.regular-expressions.info/dates.html
+            if(!release_date.matches("2[0-9][0-9][0-9]-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])")) {
+                System.out.println("The date of release is not in the correct format");
+                if (!release_date.contains("-")) System.out.println("> No hyphens (-) were included, you will need to use hyphens to separate the year-month-day");
+                if (!release_date.matches("[0-9]")) System.out.println("> No numbers were included. You must provide numbers representing the year, month and day");
+                return null;
+            }
 
             Date checked_release_date = Date.valueOf(release_date);
 
@@ -137,6 +146,15 @@ public class Main {
             System.out.println("The date was not correct");
         }
         return null;
+    }
+
+    public static boolean nameValidation(String name) {
+        if(!name.matches("^([A-Za-zÁ-Úá-ú -])+$") || name.length() > 30) {
+            if (!name.matches("^([A-Za-zÁ-Úá-ú -])+$")) System.out.println("> The name should only contain A-z, Á-z, spaces and hyphens");
+            if(name.length() > 30) System.out.println("> The name cannot be greater than 30 characters");
+            return false;
+        }
+        return true;
     }
 
 }
