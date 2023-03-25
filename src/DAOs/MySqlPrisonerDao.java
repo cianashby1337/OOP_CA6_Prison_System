@@ -54,7 +54,7 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
             }
         } catch (SQLException e)
         {
-            throw new DaoException("findAllPrisonerresultSet() " + e.getMessage());
+            throw new DaoException("findAllPrisoners() " + e.getMessage());
         } finally
         {
             try
@@ -73,7 +73,7 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
                 }
             } catch (SQLException e)
             {
-                throw new DaoException("findAllUsers() " + e.getMessage());
+                throw new DaoException("findAllPrisoners() " + e.getMessage());
             }
         }
         return prisonerList;
@@ -100,7 +100,7 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
                 }
         } catch (SQLException e)
         {
-            throw new DaoException("findUserByUsernamePassword() " + e.getMessage());
+            throw new DaoException("findPrisonerById() " + e.getMessage());
         } finally
         {
             try
@@ -119,7 +119,7 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
                 }
             } catch (SQLException e)
             {
-                throw new DaoException("findUserByUsernamePassword() " + e.getMessage());
+                throw new DaoException("findPrisonerById() " + e.getMessage());
             }
         }
         return prisoner;     // reference to User object, or null value
@@ -158,9 +158,11 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
     }
 
     @Override
-    public int addPrisoner(Prisoner addedPrisoner) throws DaoException {
+    public Prisoner addPrisoner(Prisoner addedPrisoner) throws DaoException {
         Connection connection = null;
         PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        Prisoner prisoner = null;
 
         try
         {
@@ -174,15 +176,34 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
             ps.setDate(3, addedPrisoner.getImprisonment_date());
             ps.setDate(4, addedPrisoner.getRelease_date());
             int result = ps.executeUpdate();
-            return result;
+
+            if (result == 1) {
+                connection = this.getConnection();
+                query = "SELECT * FROM prisoners WHERE first_name = ? && last_name = ? && imprisonment_date = ? && release_date = ?";
+                ps = connection.prepareStatement(query);
+                ps.setString(1, addedPrisoner.getFirst_name());
+                ps.setString(2, addedPrisoner.getLast_name());
+                ps.setDate(3, addedPrisoner.getImprisonment_date());
+                ps.setDate(4, addedPrisoner.getRelease_date());
+                resultSet = ps.executeQuery();
+                if (resultSet.next())
+                {
+                    prisoner = getSinglePrisoner(resultSet);
+                }
+            }
+            else return null;
         } catch (SQLException e)
         {
             throw new DaoException("addPrisoner() " + e.getMessage());
         } catch (NullPointerException e) {
-            return 0;
+            return null;
         }finally
         {
             try {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
                 if (ps != null) {
                     ps.close();
                 }
@@ -193,6 +214,7 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
                 throw new DaoException("addPrisoner() " + e.getMessage());
             }
         }
+        return prisoner;
     }
 
     Prisoner getSinglePrisoner(ResultSet resultSet) throws SQLException {

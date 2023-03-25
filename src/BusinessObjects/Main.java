@@ -75,7 +75,11 @@ public class Main {
 
                     case 4:
                         try{
-                            if (IUserDao.addPrisoner(createPrisoner(userInput)) == 1) System.out.println("Prisoner added to system");
+                            Prisoner p = IUserDao.addPrisoner(createPrisoner(userInput));
+                            if (p != null) {
+                                System.out.println("Prisoner added to system. Displaying their record now");
+                                System.out.println(p);
+                            }
                             else System.out.println("Prisoner not added to system");
                         }
                         catch (DaoException e) {

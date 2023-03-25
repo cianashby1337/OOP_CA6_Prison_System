@@ -33,6 +33,6 @@ public interface PrisonerDaoInterface
 
     int deletePrisonerById(int id) throws DaoException;
 
-    int addPrisoner(Prisoner addedPrisoner) throws DaoException;
+    Prisoner addPrisoner(Prisoner addedPrisoner) throws DaoException;
 }
 
