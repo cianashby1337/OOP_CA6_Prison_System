@@ -1,6 +1,10 @@
 package DTOs;
 
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**                                                     OOP Feb 2022
  *  Data Transfer Object (DTO)
@@ -27,6 +31,7 @@ public class Prisoner
 
     public Prisoner(int userId, String first_name, String last_name, double level_of_misconduct, Date imprisonment_date, Date release_date)
     {
+        //For retrieving a prisoner from the system
         this.prisoner_id = userId;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -35,19 +40,16 @@ public class Prisoner
         this.release_date = release_date;
     }
 
-    public Prisoner(String first_name, String last_name, double level_of_misconduct, Date imprisonment_date, Date release_date)
+    public Prisoner( String first_name, String last_name, Date release_date, Date imprisonment_date)
     {
         this.prisoner_id = 0;
         this.first_name = first_name;
         this.last_name = last_name;
-        this.level_of_misconduct = level_of_misconduct;
+        this.level_of_misconduct = 0;
         this.imprisonment_date = imprisonment_date;
         this.release_date = release_date;
     }
 
-    public Prisoner()
-    {
-    }
 
     public int getPrisoner_id()
     {

@@ -127,7 +127,6 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
 
     @Override
     public int deletePrisonerById(int id) throws DaoException {
-
         Connection connection = null;
         PreparedStatement ps = null;
 
@@ -154,6 +153,44 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
                 }
             } catch (SQLException e) {
                 throw new DaoException("deletePrisonerById() " + e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public int addPrisoner(Prisoner addedPrisoner) throws DaoException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        try
+        {
+            //Get connection object using the methods in the super class (MySqlDao.java)...
+            connection = this.getConnection();
+
+            String query = "INSERT INTO `prisoners`(`prisoner_id`, `first_name`, `last_name`, `level_of_misconduct`, `imprisonment_date`, `release_date`) VALUES (0,?,?,0,?,?)";
+            ps = connection.prepareStatement(query);
+            ps.setString(1, addedPrisoner.getFirst_name());
+            ps.setString(2, addedPrisoner.getLast_name());
+            ps.setDate(3, addedPrisoner.getImprisonment_date());
+            ps.setDate(4, addedPrisoner.getRelease_date());
+            int result = ps.executeUpdate();
+            return result;
+        } catch (SQLException e)
+        {
+            throw new DaoException("addPrisoner() " + e.getMessage());
+        } catch (NullPointerException e) {
+            return 0;
+        }finally
+        {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e) {
+                throw new DaoException("addPrisoner() " + e.getMessage());
             }
         }
     }

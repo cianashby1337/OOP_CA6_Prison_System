@@ -32,5 +32,7 @@ public interface PrisonerDaoInterface
     Prisoner findPrisonerById(int id) throws DaoException;
 
     int deletePrisonerById(int id) throws DaoException;
+
+    int addPrisoner(Prisoner addedPrisoner) throws DaoException;
 }
 
