@@ -1,10 +1,6 @@
 package DTOs;
 
 import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**                                                     OOP Feb 2022
  *  Data Transfer Object (DTO)
