@@ -53,7 +53,10 @@ public class Main {
                         System.out.print("Enter the ID to search by: ");
                         try {
                             idToGet = userInput.nextInt();
-                            System.out.println(IPrisonerDao.findPrisonerById(idToGet));
+                            if (cachedIds.contains(idToGet)) System.out.println(IPrisonerDao.findPrisonerById(idToGet));
+                            else System.out.println("""
+                        ID not found in cache, try retrieving all prisoners (1 - Display all prisoners).
+                        If a prisoner by that ID is still not found, they probably don't exist in the system""");
                         }
                         catch (DaoException e) {
                             e.printStackTrace();
