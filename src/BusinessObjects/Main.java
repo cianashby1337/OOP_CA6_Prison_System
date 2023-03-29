@@ -28,7 +28,8 @@ public class Main {
                     2 - Display a prisoner by their ID
                     3 - Delete a prisoner by their ID
                     4 - Add a new prisoner
-                    5 - Display prisoners to be sent to solitary (level of misconduct 3.15 and over""");
+                    5 - Display prisoners to be sent to solitary (level of misconduct 3.15 and over
+                    6 - Display cached prisoner IDs""");
             try {
                 choice = userInput.nextInt();
                 switch (choice) {
@@ -40,6 +41,7 @@ public class Main {
                             List<Prisoner> prisoners = IPrisonerDao.findAllPrisoners();
                             for (Prisoner prisoner:prisoners) {
                                 System.out.println(prisoner.toString());
+                                cachedIds.add(prisoner.getPrisoner_id());
                             }
                         }
                         catch (DaoException e) {
@@ -103,6 +105,11 @@ public class Main {
                         }
                         catch (DaoException e) {
                             e.printStackTrace();
+                        }
+                        break;
+                    case 6:
+                        for (Integer id:cachedIds) {
+                            System.out.println(id);
                         }
                         break;
                     default:
