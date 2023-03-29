@@ -1,5 +1,7 @@
 package BusinessObjects;
 
+import Comparators.IFilter;
+import Comparators.prisonerLevelOfMisconductComparator;
 import DAOs.MySqlPrisonerDao;
 import DAOs.PrisonerDaoInterface;
 import DTOs.Prisoner;
@@ -8,13 +10,12 @@ import Exceptions.DaoException;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        PrisonerDaoInterface IUserDao = new MySqlPrisonerDao();
+        PrisonerDaoInterface IPrisonerDao = new MySqlPrisonerDao();
+
         Scanner userInput = new Scanner(System.in);
         int choice;
         while (true) {
@@ -25,7 +26,8 @@ public class Main {
                     1 - Display all prisoners
                     2 - Display a prisoner by their ID
                     3 - Delete a prisoner by their ID
-                    4 - Add a new prisoner""");
+                    4 - Add a new prisoner
+                    5 - Display prisoners to be sent to solitary (level of misconduct 3.15 and over""");
             try {
                 choice = userInput.nextInt();
                 switch (choice) {
@@ -34,7 +36,7 @@ public class Main {
                         return;
                     case 1:
                         try {
-                            List<Prisoner> prisoners = IUserDao.findAllPrisoners();
+                            List<Prisoner> prisoners = IPrisonerDao.findAllPrisoners();
                             for (Prisoner prisoner:prisoners) {
                                 System.out.println(prisoner.toString());
                             }
@@ -48,7 +50,7 @@ public class Main {
                         System.out.print("Enter the ID to search by: ");
                         try {
                             idToGet = userInput.nextInt();
-                            System.out.println(IUserDao.findPrisonerById(idToGet));
+                            System.out.println(IPrisonerDao.findPrisonerById(idToGet));
                         }
                         catch (DaoException e) {
                             e.printStackTrace();
@@ -62,7 +64,7 @@ public class Main {
                         System.out.print("Enter the ID to search by: ");
                         try {
                             idToDelete = userInput.nextInt();
-                            if (IUserDao.deletePrisonerById(idToDelete) == 1) System.out.println("Prisoner removed from system");
+                            if (IPrisonerDao.deletePrisonerById(idToDelete) == 1) System.out.println("Prisoner removed from system");
                             else System.out.println("Prisoner not removed from system");
                         }
                         catch (DaoException e) {
@@ -75,7 +77,7 @@ public class Main {
 
                     case 4:
                         try{
-                            Prisoner p = IUserDao.addPrisoner(createPrisoner(userInput));
+                            Prisoner p = IPrisonerDao.addPrisoner(createPrisoner(userInput));
                             if (p != null) {
                                 System.out.println("Prisoner added to system. Displaying their record now");
                                 System.out.println(p);
@@ -90,6 +92,18 @@ public class Main {
                         }
                         break;
 
+                    case 5:
+                        try {
+                            PrisonerList list = new PrisonerList(IPrisonerDao.findAllPrisoners());
+                            List<Prisoner> finalList = new ArrayList<>(list.filterBy(new prisonerLevelOfMisconductComparator(3.15)));
+                            for (Prisoner p: finalList) {
+                                System.out.println(p);
+                            }
+                        }
+                        catch (DaoException e) {
+                            e.printStackTrace();
+                        }
+                        break;
                     default:
                         System.out.println("Invalid number, please try again");
                         break;
