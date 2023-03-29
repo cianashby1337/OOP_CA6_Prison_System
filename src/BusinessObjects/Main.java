@@ -15,6 +15,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         PrisonerDaoInterface IPrisonerDao = new MySqlPrisonerDao();
+        HashSet<Integer> cachedIds = new HashSet<>();
 
         Scanner userInput = new Scanner(System.in);
         int choice;
