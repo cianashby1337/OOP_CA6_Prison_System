@@ -18,7 +18,7 @@ public class Main {
         HashSet<Integer> cachedIds = new HashSet<>();
 
         Scanner userInput = new Scanner(System.in);
-        int choice;
+        int choice, idToGet;
         while (true) {
             System.out.println("""
                     
@@ -50,7 +50,6 @@ public class Main {
                         }
                         break;
                     case 2:
-                        int idToGet;
                         System.out.print("Enter the ID to search by: ");
                         try {
                             idToGet = userInput.nextInt();
@@ -122,6 +121,19 @@ public class Main {
                         }
                         catch (DaoException e) {
                             e.printStackTrace();
+                        }
+                        break;
+                    case 8:
+                        System.out.print("Enter the ID to search by: ");
+                        try {
+                            idToGet = userInput.nextInt();
+                            System.out.println(IPrisonerDao.findPlayerByIdJson(idToGet));
+                        }
+                        catch (DaoException e) {
+                            e.printStackTrace();
+                        }
+                        catch (InputMismatchException e) {
+                            System.out.println("Please enter a number");
                         }
                         break;
                     default:
