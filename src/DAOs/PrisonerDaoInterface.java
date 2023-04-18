@@ -36,5 +36,7 @@ public interface PrisonerDaoInterface
     Prisoner addPrisoner(Prisoner addedPrisoner) throws DaoException;
 
     String findAllPlayersJson() throws DaoException;
+
+    String findPlayerByIdJson(int id) throws DaoException;
 }
 

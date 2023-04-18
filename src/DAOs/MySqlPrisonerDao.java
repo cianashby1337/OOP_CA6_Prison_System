@@ -243,5 +243,17 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
             throw new DaoException("findAllPlayersJson() " + e.getMessage());
         }
     }
+
+    public String findPlayerByIdJson(int id) throws DaoException {
+        try {
+            Prisoner p = findPrisonerById(id);
+            Gson gsonParser = new Gson();
+            if (p == null) return "No prisoner was found";
+            else return gsonParser.toJson(p);
+        }
+        catch (SQLException e) {
+            throw new DaoException("findAllPlayersJson() " + e.getMessage());
+        }
+    }
 }
 
