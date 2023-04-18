@@ -34,5 +34,7 @@ public interface PrisonerDaoInterface
     int deletePrisonerById(int id) throws DaoException;
 
     Prisoner addPrisoner(Prisoner addedPrisoner) throws DaoException;
+
+    String findAllPlayersJson() throws DaoException;
 }
 

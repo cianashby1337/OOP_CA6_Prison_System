@@ -20,6 +20,8 @@ package DAOs;
 import DTOs.Prisoner;
 import Exceptions.DaoException;
 
+
+import com.google.gson.Gson;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -225,6 +227,21 @@ public class MySqlPrisonerDao extends MySqlDao implements PrisonerDaoInterface
         Date imprisonment_date = resultSet.getDate("imprisonment_date");
         Date release_date = resultSet.getDate("release_date");
         return new Prisoner(prisoner_id, first_name, last_name, level_of_misconduct, imprisonment_date, release_date);
+    }
+
+    public String findAllPlayersJson() throws DaoException {
+        try {
+            List<Prisoner> prisonersToJsonify = new ArrayList<>(findAllPrisoners());
+            Gson gsonParser = new Gson();
+            String jsonPrisoners = "";
+            for (Prisoner p : prisonersToJsonify) {
+                jsonPrisoners += gsonParser.toJson(p);
+            }
+            return jsonPrisoners;
+        }
+        catch (SQLException e) {
+            throw new DaoException("findAllPlayersJson() " + e.getMessage());
+        }
     }
 }
 
