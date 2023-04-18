@@ -29,7 +29,8 @@ public class Main {
                     3 - Delete a prisoner by their ID
                     4 - Add a new prisoner
                     5 - Display prisoners to be sent to solitary (level of misconduct 3.15 and over
-                    6 - Display cached prisoner IDs""");
+                    6 - Display cached prisoner IDs
+                    7 - Display all prisoners in JSON format""");
             try {
                 choice = userInput.nextInt();
                 switch (choice) {
@@ -113,6 +114,14 @@ public class Main {
                     case 6:
                         for (Integer id:cachedIds) {
                             System.out.println(id);
+                        }
+                        break;
+                    case 7:
+                        try {
+                            System.out.println(IPrisonerDao.findAllPlayersJson());
+                        }
+                        catch (DaoException e) {
+                            e.printStackTrace();
                         }
                         break;
                     default:
