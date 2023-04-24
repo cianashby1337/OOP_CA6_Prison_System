@@ -106,9 +106,9 @@ public class Prisoner
     @Override
     public String toString()
     {
-        return "Prisoner{" + "prisoner_id=" + prisoner_id + ", first_name=" + first_name + ", last_name=" + last_name +
-                ", level_of_misconduct=" + level_of_misconduct +
-                ", imprisonment_date=" + imprisonment_date + ", release_date=" + release_date + '}';
+        return "Prisoner" + prisoner_id + "\nForename: " + first_name + "\nSurname: " + last_name +
+                "\nLOM: " + level_of_misconduct +
+                "\nImprisonment Date: " + imprisonment_date + "\nRelease Date: " + release_date + "\n";
     }
 
 }

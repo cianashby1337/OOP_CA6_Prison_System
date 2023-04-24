@@ -35,7 +35,7 @@ public class Server {
                 if (command.startsWith("Find"))
                 {
                     try {
-                        out.print(IPrisonerDao.findPlayerByIdJson(in.nextInt()));
+                        out.print("Found " + IPrisonerDao.findPlayerByIdJson(in.nextInt()));
                     }
                     catch (InputMismatchException e) {
                         out.print("Invalid ID type provided");

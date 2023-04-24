@@ -6,6 +6,7 @@ import DAOs.MySqlPrisonerDao;
 import DAOs.PrisonerDaoInterface;
 import DTOs.Prisoner;
 import Exceptions.DaoException;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -169,7 +170,11 @@ public class Main {
                             Scanner inStream = new Scanner(socket.getInputStream());
 
                             String input = inStream.nextLine();
-                            System.out.println("The response was: " + input);
+                            if (input.startsWith("Found")) {
+                                Prisoner p = prisonerJSONToString(input);
+                                System.out.println(p);
+                            }
+                            else System.out.println("The response was: " + input);
                             out.close();
                             inStream.close();
                             socket.close();
@@ -248,6 +253,12 @@ public class Main {
             return false;
         }
         return true;
+    }
+
+    public static Prisoner prisonerJSONToString(String json) {
+        json = json.substring(5);
+        Gson gsonParser = new Gson();
+        return gsonParser.fromJson(json, Prisoner.class);
     }
 
 }
