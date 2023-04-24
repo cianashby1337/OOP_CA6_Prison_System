@@ -150,7 +150,13 @@ public class Main {
 
                             System.out.println("Connected to server");
 
-                            System.out.println("Please enter \"Echo\", the expected result is Echo back!");
+                            System.out.println("""
+                                    Please one of the following commands for any of their operations:
+                                    Find (id) - Find a prisoner by ID
+                                    Rollcall - Display all prisoners
+                                    Imprison - Add a prisoner
+                                    Release - Delete a prisoner by ID
+                                    """);
 
                             String command = userInput.nextLine();
 
