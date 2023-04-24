@@ -7,6 +7,11 @@ import DAOs.PrisonerDaoInterface;
 import DTOs.Prisoner;
 import Exceptions.DaoException;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -30,7 +35,9 @@ public class Main {
                     4 - Add a new prisoner
                     5 - Display prisoners to be sent to solitary (level of misconduct 3.15 and over
                     6 - Display cached prisoner IDs
-                    7 - Display all prisoners in JSON format""");
+                    7 - Display all prisoners, in JSON format
+                    8 - Display a prisoner by their ID, in JSON format
+                    9 - Test Client/Server connectivity""");
             try {
                 choice = userInput.nextInt();
                 switch (choice) {
@@ -134,6 +141,35 @@ public class Main {
                         }
                         catch (InputMismatchException e) {
                             System.out.println("Please enter a number");
+                        }
+                        break;
+                    case 9:
+                        try {
+                            Socket socket = new Socket("localhost",8080);
+
+                            System.out.println("Connected to server");
+
+                            System.out.println("Please enter \"Echo\", the expected result is Echo back!");
+
+                            String command = userInput.nextLine();
+
+                            OutputStream os = socket.getOutputStream();
+                            PrintWriter out = new PrintWriter(os,true);
+
+                            out.write(command+"\n");
+                            out.flush();
+
+                            Scanner inStream = new Scanner(socket.getInputStream());
+
+                            String input = inStream.nextLine();
+                            System.out.println("The response was: " + input);
+                            out.close();
+                            inStream.close();
+                            socket.close();
+                        } catch (UnknownHostException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
                         }
                         break;
                     default:
