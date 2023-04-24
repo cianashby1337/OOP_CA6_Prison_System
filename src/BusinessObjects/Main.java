@@ -144,6 +144,7 @@ public class Main {
                         }
                         break;
                     case 9:
+                        userInput.nextLine();
                         try {
                             Socket socket = new Socket("localhost",8080);
 
