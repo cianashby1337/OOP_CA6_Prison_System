@@ -1,6 +1,5 @@
 package BusinessObjects;
 
-import Comparators.IFilter;
 import Comparators.prisonerLevelOfMisconductComparator;
 import DAOs.MySqlPrisonerDao;
 import DAOs.PrisonerDaoInterface;
@@ -11,7 +10,6 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.lang.reflect.Type;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.sql.Date;
@@ -164,8 +162,12 @@ public class Main {
 
                             OutputStream os = socket.getOutputStream();
                             PrintWriter out = new PrintWriter(os,true);
-
-                            out.write(command+"\n");
+                            if (command.equalsIgnoreCase("imprison")) {
+                                Gson gsonParser = new Gson();
+                                String prisonerJson = gsonParser.toJson(createPrisoner(userInput), Prisoner.class);
+                                out.write(command+prisonerJson+"\n");
+                            }
+                            else out.write(command+"\n");
                             out.flush();
 
                             Scanner inStream = new Scanner(socket.getInputStream());
