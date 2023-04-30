@@ -170,9 +170,12 @@ public class Main {
                             Scanner inStream = new Scanner(socket.getInputStream());
 
                             String input = inStream.nextLine();
-                            if (input.startsWith("Found")) {
+                            if (input.toLowerCase().startsWith("found")) {
                                 Prisoner p = prisonerJSONToString(input);
                                 System.out.println(p);
+                            }
+                            else if (input.toLowerCase().startsWith("rollcall")) {
+                                System.out.println("Rollcall... Displaying all prisoners");
                             }
                             else System.out.println("The response was: " + input);
                             out.close();

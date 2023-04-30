@@ -32,7 +32,7 @@ public class Server {
 
                 OutputStream os = socket.getOutputStream();
                 PrintWriter out = new PrintWriter(os,true);
-                if (command.startsWith("Find"))
+                if (command.toLowerCase().startsWith("find"))
                 {
                     try {
                         out.print("Found " + IPrisonerDao.findPlayerByIdJson(in.nextInt()));
@@ -40,6 +40,9 @@ public class Server {
                     catch (InputMismatchException e) {
                         out.print("Invalid ID type provided");
                     }
+                }
+                else if(command.equalsIgnoreCase("rollcall")) {
+                    out.print("rollcall");
                 }
                 else out.print("Please enter another command");
                 out.flush();
