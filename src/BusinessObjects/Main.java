@@ -175,7 +175,7 @@ public class Main {
                                 System.out.println(p);
                             }
                             else if (input.toLowerCase().startsWith("rollcall")) {
-                                System.out.println("Rollcall... Displaying all prisoners");
+                                System.out.println(input.substring(8));
                             }
                             else System.out.println("The response was: " + input);
                             out.close();

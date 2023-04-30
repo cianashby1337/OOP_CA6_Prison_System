@@ -42,7 +42,7 @@ public class Server {
                     }
                 }
                 else if(command.equalsIgnoreCase("rollcall")) {
-                    out.print("rollcall");
+                    out.print("rollcall" + IPrisonerDao.findAllPlayersJson());
                 }
                 else out.print("Please enter another command");
                 out.flush();
