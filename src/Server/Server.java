@@ -2,7 +2,9 @@ package Server;
 
 import DAOs.MySqlPrisonerDao;
 import DAOs.PrisonerDaoInterface;
+import DTOs.Prisoner;
 import Exceptions.DaoException;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -26,7 +28,7 @@ public class Server {
                 System.out.println("A client has connected");
 
                 Scanner in = new Scanner(socket.getInputStream());
-                String command = in.next();
+                String command = in.nextLine();
 
                 System.out.println("Message recieved from client: " + command);
 
@@ -35,9 +37,11 @@ public class Server {
                 if (command.toLowerCase().startsWith("find"))
                 {
                     try {
-                        out.print("Found " + IPrisonerDao.findPlayerByIdJson(in.nextInt()));
+                        String result = IPrisonerDao.findPlayerByIdJson(Integer.parseInt(command.substring(5)));
+                        if (result.equals("No prisoner was found")) out.print(result);
+                        else out.print("Found " + result);
                     }
-                    catch (InputMismatchException e) {
+                    catch (NumberFormatException e) {
                         out.print("Invalid ID type provided");
                     }
                 }
@@ -47,7 +51,10 @@ public class Server {
                 }
                 else if (command.toLowerCase().startsWith("imprison"))
                 {
-                    out.print("imprisoned");
+                    Gson gsonParser = new Gson();
+                    Prisoner p = IPrisonerDao.addPrisoner(gsonParser.fromJson(command.substring(8), Prisoner.class));
+                    if (p == null) out.print("There was an error in the attempt to insert a new prisoner");
+                    else out.print("imprison" + gsonParser.toJson(p));
                 }
                 else out.print("Please enter another command");
                 out.flush();

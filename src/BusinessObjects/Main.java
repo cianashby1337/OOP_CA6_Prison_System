@@ -90,6 +90,7 @@ public class Main {
 
                     case 4:
                         try{
+                            userInput.nextLine();
                             Prisoner p = IPrisonerDao.addPrisoner(createPrisoner(userInput));
                             if (p != null) {
                                 System.out.println("Prisoner added to system. Displaying their record now");
@@ -164,7 +165,8 @@ public class Main {
                             PrintWriter out = new PrintWriter(os,true);
                             if (command.equalsIgnoreCase("imprison")) {
                                 Gson gsonParser = new Gson();
-                                String prisonerJson = gsonParser.toJson(createPrisoner(userInput), Prisoner.class);
+                                String prisonerJson;
+                                prisonerJson = gsonParser.toJson(createPrisoner(userInput), Prisoner.class);
                                 out.write(command+prisonerJson+"\n");
                             }
                             else out.write(command+"\n");
@@ -174,7 +176,7 @@ public class Main {
 
                             String input = inStream.nextLine();
                             if (input.toLowerCase().startsWith("found")) {
-                                Prisoner p = prisonerJSONToString(input);
+                                Prisoner p = prisonerJSONToString(input.substring(5));
                                 System.out.println(p);
                             }
                             else if (input.toLowerCase().startsWith("rollcall")) {
@@ -184,7 +186,8 @@ public class Main {
                                 }
                             }
                             else if (input.toLowerCase().startsWith("imprison")) {
-                                System.out.println("Prisoner " + input);
+                                Prisoner p = prisonerJSONToString(input.substring(8));
+                                System.out.println(p);
                             }
                             else System.out.println("The response was: " + input);
                             out.close();
@@ -210,7 +213,6 @@ public class Main {
     }
     public static Prisoner createPrisoner(Scanner userInput) {
         try {
-            userInput.nextLine();
             System.out.println("Enter the first name of the convict");
             String first_name = userInput.nextLine();
             if(!nameValidation(first_name)) return null;
@@ -268,7 +270,6 @@ public class Main {
     }
 
     public static Prisoner prisonerJSONToString(String json) {
-        json = json.substring(5);
         Gson gsonParser = new Gson();
         return gsonParser.fromJson(json, Prisoner.class);
     }
