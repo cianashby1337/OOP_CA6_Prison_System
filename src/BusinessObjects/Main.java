@@ -181,6 +181,9 @@ public class Main {
                                     System.out.println(p);
                                 }
                             }
+                            else if (input.toLowerCase().startsWith("imprison")) {
+                                System.out.println("Prisoner " + input);
+                            }
                             else System.out.println("The response was: " + input);
                             out.close();
                             inStream.close();

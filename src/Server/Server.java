@@ -41,8 +41,13 @@ public class Server {
                         out.print("Invalid ID type provided");
                     }
                 }
-                else if(command.equalsIgnoreCase("rollcall")) {
+                else if(command.equalsIgnoreCase("rollcall"))
+                {
                     out.print("rollcall" + IPrisonerDao.findAllPlayersJson());
+                }
+                else if (command.toLowerCase().startsWith("imprison"))
+                {
+                    out.print("imprisoned");
                 }
                 else out.print("Please enter another command");
                 out.flush();
