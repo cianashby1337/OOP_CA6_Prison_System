@@ -176,10 +176,9 @@ public class Main {
                                 System.out.println(p);
                             }
                             else if (input.toLowerCase().startsWith("rollcall")) {
-                                List<Prisoner> p = prisonerJSONToList(input);
-                                for (Prisoner prisoner : p
-                                     ) {
-                                    System.out.println(prisoner);
+                                List<Prisoner> prisoner = prisonerJSONToList(input);
+                                for (Prisoner p : prisoner) {
+                                    System.out.println(p);
                                 }
                             }
                             else System.out.println("The response was: " + input);
@@ -269,14 +268,14 @@ public class Main {
         return gsonParser.fromJson(json, Prisoner.class);
     }
     public static List<Prisoner> prisonerJSONToList(String json) {
-        List<Prisoner> f = new ArrayList<>();
+        List<Prisoner> prisonerList = new ArrayList<>();
         json = json.substring(8);
         Gson gsonParser = new Gson();
         while (json.length() > 0) {
-            f.add(gsonParser.fromJson(json.substring(0,json.indexOf("}")+1), Prisoner.class));
+            prisonerList.add(gsonParser.fromJson(json.substring(0,json.indexOf("}")+1), Prisoner.class));
             json = json.substring(json.indexOf("}")+1);
         }
-        return f;
+        return prisonerList;
     }
 
 }
