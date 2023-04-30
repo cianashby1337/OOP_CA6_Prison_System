@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.sql.Date;
@@ -175,7 +176,11 @@ public class Main {
                                 System.out.println(p);
                             }
                             else if (input.toLowerCase().startsWith("rollcall")) {
-                                System.out.println(input.substring(8));
+                                List<Prisoner> p = prisonerJSONToList(input);
+                                for (Prisoner prisoner : p
+                                     ) {
+                                    System.out.println(prisoner);
+                                }
                             }
                             else System.out.println("The response was: " + input);
                             out.close();
@@ -262,6 +267,16 @@ public class Main {
         json = json.substring(5);
         Gson gsonParser = new Gson();
         return gsonParser.fromJson(json, Prisoner.class);
+    }
+    public static List<Prisoner> prisonerJSONToList(String json) {
+        List<Prisoner> f = new ArrayList<>();
+        json = json.substring(8);
+        Gson gsonParser = new Gson();
+        while (json.length() > 0) {
+            f.add(gsonParser.fromJson(json.substring(0,json.indexOf("}")+1), Prisoner.class));
+            json = json.substring(json.indexOf("}")+1);
+        }
+        return f;
     }
 
 }
