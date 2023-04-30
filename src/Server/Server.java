@@ -56,6 +56,10 @@ public class Server {
                     if (p == null) out.print("There was an error in the attempt to insert a new prisoner");
                     else out.print("imprison" + gsonParser.toJson(p));
                 }
+                else if (command.toLowerCase().startsWith("release")) {
+                    if (command.length() < 9) out.print("Please enter something after the \"release\" command");
+                    else out.print("This should release prisoner " + command.substring(8) + " if they exist, and id is a number");
+                }
                 else out.print("Please enter another command");
                 out.flush();
                 socket.close();

@@ -189,7 +189,10 @@ public class Main {
                                 Prisoner p = prisonerJSONToString(input.substring(8));
                                 System.out.println(p);
                             }
-                            else System.out.println("The response was: " + input);
+                            else if (input.toLowerCase().startsWith("release")) {
+                                System.out.println(input.substring(8));
+                            }
+                            else System.out.println("Server says: " + input);
                             out.close();
                             inStream.close();
                             socket.close();
