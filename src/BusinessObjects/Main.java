@@ -190,7 +190,7 @@ public class Main {
                                 System.out.println(p);
                             }
                             else if (input.toLowerCase().startsWith("release")) {
-                                System.out.println(input.substring(8));
+                                System.out.println(input.substring(7));
                             }
                             else System.out.println("Server says: " + input);
                             out.close();

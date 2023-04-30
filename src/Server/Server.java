@@ -58,7 +58,12 @@ public class Server {
                 }
                 else if (command.toLowerCase().startsWith("release")) {
                     if (command.length() < 9) out.print("Please enter something after the \"release\" command");
-                    else out.print("This should release prisoner " + command.substring(8) + " if they exist, and id is a number");
+                    else {
+                        if(IPrisonerDao.deletePrisonerById(Integer.parseInt(command.substring(8))) == 1) {
+                            out.print("release" + command.substring(8) + " was released");
+                        }
+                        else out.print("release" + command.substring(8) + " was not found, and could not be deleted");
+                    };
                 }
                 else out.print("Please enter another command");
                 out.flush();
