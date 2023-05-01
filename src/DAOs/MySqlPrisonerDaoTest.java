@@ -24,7 +24,7 @@ class MySqlPrisonerDaoTest {
     void findPrisonerById() throws DaoException {
         System.out.println("Test 2 - Assert that the found prisoner's ID no. matches the searched number (1)");
         Prisoner testPrisoner = IPrisonerDAO.findPrisonerById(1);
-        if (testPrisoner == null) fail("Returned value was null. Ensure the database contains a prisoner with an id of 1 before assuming failure");
+        if (testPrisoner == null) fail("Returned value was null. Ensure the database contains a prisoner with an id of 1, and that the deletePrisonerById() test was not run, before assuming failure");
         assertTrue(testPrisoner.getPrisoner_id() == 1,"A prisoner was returned, but an ID mismatch was detected");
     }
 
