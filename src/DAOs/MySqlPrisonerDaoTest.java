@@ -3,6 +3,9 @@ package DAOs;
 import DTOs.Prisoner;
 import Exceptions.DaoException;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,6 +35,11 @@ class MySqlPrisonerDaoTest {
     }
 
     @org.junit.jupiter.api.Test
-    void addPrisoner() {
+    void addPrisoner() throws DaoException {
+        System.out.println("Test 4 - Assert a prisoner has been added, indicated by no exception, and an id above 0");
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime now = LocalDateTime.now();
+        assertTrue(IPrisonerDAO.addPrisoner(new Prisoner("Test","Prisoner",Date.valueOf("2030-11-10"),Date.valueOf(dtf.format(now)))).getPrisoner_id() > 0);
     }
 }
