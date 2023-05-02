@@ -25,11 +25,18 @@ import Exceptions.DaoException;
 
 import java.util.List;
 
-public interface UserDaoInterface
+public interface PrisonerDaoInterface
 {
-    public List<Prisoner> findAllPrisoners() throws DaoException;
+    List<Prisoner> findAllPrisoners() throws DaoException;
 
-    public Prisoner findPrisonerById(int id) throws DaoException;
+    Prisoner findPrisonerById(int id) throws DaoException;
 
+    int deletePrisonerById(int id) throws DaoException;
+
+    Prisoner addPrisoner(Prisoner addedPrisoner) throws DaoException;
+
+    String findAllPlayersJson() throws DaoException;
+
+    String findPlayerByIdJson(int id) throws DaoException;
 }
 

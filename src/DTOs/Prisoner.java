@@ -27,6 +27,7 @@ public class Prisoner
 
     public Prisoner(int userId, String first_name, String last_name, double level_of_misconduct, Date imprisonment_date, Date release_date)
     {
+        //For retrieving a prisoner from the system
         this.prisoner_id = userId;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -35,19 +36,16 @@ public class Prisoner
         this.release_date = release_date;
     }
 
-    public Prisoner(String first_name, String last_name, double level_of_misconduct, Date imprisonment_date, Date release_date)
+    public Prisoner( String first_name, String last_name, Date release_date, Date imprisonment_date)
     {
         this.prisoner_id = 0;
         this.first_name = first_name;
         this.last_name = last_name;
-        this.level_of_misconduct = level_of_misconduct;
+        this.level_of_misconduct = 0;
         this.imprisonment_date = imprisonment_date;
         this.release_date = release_date;
     }
 
-    public Prisoner()
-    {
-    }
 
     public int getPrisoner_id()
     {
@@ -108,9 +106,9 @@ public class Prisoner
     @Override
     public String toString()
     {
-        return "Prisoner{" + "prisoner_id=" + prisoner_id + ", first_name=" + first_name + ", last_name=" + last_name +
-                ", level_of_misconduct=" + level_of_misconduct +
-                ", imprisonment_date=" + imprisonment_date + ", release_date=" + release_date + '}';
+        return "Prisoner" + prisoner_id + "\nForename: " + first_name + "\nSurname: " + last_name +
+                "\nLOM: " + level_of_misconduct +
+                "\nImprisonment Date: " + imprisonment_date + "\nRelease Date: " + release_date + "\n";
     }
 
 }
